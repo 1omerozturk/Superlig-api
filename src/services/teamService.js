@@ -42,8 +42,7 @@ class TeamService {
   async getTeamLineUp(id) {
     const teams = await this.getTeams()
     const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: process.env.CHROME_BIN || null
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     const page = await browser.newPage()
     await page.goto(teams[id].url, { waitUntil: 'networkidle2' })
@@ -69,7 +68,6 @@ class TeamService {
     const teams = await this.getTeams();
     const browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: process.env.CHROME_BIN || null
     });
     const page = await browser.newPage();
     
