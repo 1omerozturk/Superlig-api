@@ -41,7 +41,10 @@ class TeamService {
 
   async getTeamLineUp(id) {
     const teams = await this.getTeams()
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: process.env.CHROME_BIN || null
+    });
     const page = await browser.newPage()
     await page.goto(teams[id].url, { waitUntil: 'networkidle2' })
     await page.click('#ctl00_MPane_m_438_196_ctnr_m_438_196_btnAra')
@@ -63,24 +66,36 @@ class TeamService {
   }
 
   async getTeamFixture(id) {
-    const teams = await this.getTeams()
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.goto(teams[id].url, { waitUntil: 'networkidle2' })
-    await page.click('#ctl00_MPane_m_438_398_ctnr_m_438_398_bntAra')
-    await page.waitForSelector('table.MasterTable_TFF_Contents')
-    let teamFixture = []
-    let hasNextPage = true
+    const teams = await this.getTeams();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: process.env.CHROME_BIN || null
+    });
+    const page = await browser.newPage();
+    
+    await page.goto(teams[id].url, { waitUntil: 'networkidle2' });
+  
+    // Ekstra bekleme süresi ekleyin
+    await page.waitForSelector('table');
+    
+    await page.click('#ctl00_MPane_m_438_398_ctnr_m_438_398_bntAra');
+    await page.waitForSelector('table.MasterTable_TFF_Contents');
+    
+    let teamFixture = [];
+    let hasNextPage = true;
+    
     while (hasNextPage) {
-      const html = await page.content()
-      const $ = cheerio.load(html, { decodeEntities: false })
-      const tableRows = $('table.MasterTable_TFF_Contents tbody tr')
+      const html = await page.content();
+      const $ = cheerio.load(html, { decodeEntities: false });
+      const tableRows = $('table.MasterTable_TFF_Contents tbody tr');
+      
       tableRows.each((index, element) => {
-        const home = $(element).find('td').eq(1).text().trim()
-        const result = $(element).find('td').eq(2).text().trim()
-        const away = $(element).find('td').eq(3).text().trim()
-        const date = $(element).find('td').eq(4).text().trim()
-        const org = $(element).find('td').eq(5).text().trim()
+        const home = $(element).find('td').eq(1).text().trim();
+        const result = $(element).find('td').eq(2).text().trim();
+        const away = $(element).find('td').eq(3).text().trim();
+        const date = $(element).find('td').eq(4).text().trim();
+        const org = $(element).find('td').eq(5).text().trim();
+        
         teamFixture.push({
           id: teamFixture.length + 1,
           home: home,
@@ -88,20 +103,22 @@ class TeamService {
           date: date,
           result: result,
           organization: org,
-        })
-      })
-      const nextPageButton = await page.$('a[title="Next page"]')
+        });
+      });
+      
+      const nextPageButton = await page.$('a[title="Next page"]');
       if (nextPageButton) {
-        await nextPageButton.click()
-        await page.waitForSelector('table.MasterTable_TFF_Contents')
+        await nextPageButton.click();
+        await page.waitForSelector('table.MasterTable_TFF_Contents');
       } else {
-        hasNextPage = false
+        hasNextPage = false;
       }
     }
-    await browser.close()
-    // console.log(teamFixture)
-    return teamFixture
+    
+    await browser.close();
+    return teamFixture;
   }
+  
 }
 
 module.exports = new TeamService()
