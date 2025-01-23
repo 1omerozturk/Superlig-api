@@ -41,7 +41,10 @@ class TeamService {
 
   async getTeamLineUp(id) {
     const teams = await this.getTeams()
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: '/bin/google-chrome-stable'
+    });
     const page = await browser.newPage()
     await page.goto(teams[id].url, { waitUntil: 'networkidle2' })
     await page.click('#ctl00_MPane_m_438_196_ctnr_m_438_196_btnAra')
@@ -64,7 +67,10 @@ class TeamService {
 
   async getTeamFixture(id) {
     const teams = await this.getTeams();
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: '/bin/google-chrome-stable'
+    });
     const page = await browser.newPage();
     
     await page.goto(teams[id].url, { waitUntil: 'networkidle2' });
