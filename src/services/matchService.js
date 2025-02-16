@@ -118,8 +118,7 @@ class MatchService {
   }
 
   async getMatchDetailsFromLink(link) {
-    const response = await fetchData(link)
-    const html = await response.text()
+    const html = await fetchData(link)
     const $ = cheerio.load(html, { decodeEntities: false })
 
     const team1Score = $('p.MacDetaySayi span')[0].children[0].data.trim()
