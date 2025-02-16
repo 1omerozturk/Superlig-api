@@ -118,7 +118,7 @@ class MatchService {
   }
 
   async getMatchDetailsFromLink(link) {
-    const response = await fetch(link)
+    const response = await fetchData(link)
     const html = await response.text()
     const $ = cheerio.load(html, { decodeEntities: false })
 
@@ -136,14 +136,24 @@ class MatchService {
       logo: $('td.TakimAdi.altGriCizgi a[id$="imgTakim2Logo"] img').attr('src'),
     }
 
-    let goals = [];
-    $('td.MacDetayMiniBaslik:has(img[src="App_Themes/TFF_Default/Images/design/iconGoller.gif"])').parent().nextUntil('tr:has(td.MacDetayMiniBaslik)').each((i, elem) => {
-        const goal = $(elem).find('a').text().trim();
+    let goals = []
+    $(
+      'td.MacDetayMiniBaslik:has(img[src="App_Themes/TFF_Default/Images/design/iconGoller.gif"])',
+    )
+      .parent()
+      .nextUntil('tr:has(td.MacDetayMiniBaslik)')
+      .each((i, elem) => {
+        const goal = $(elem).find('a').text().trim()
         if (goal) {
-            goals.push(goal);
+          goals.push(goal)
         }
-    });
-    
+      })
+    console.log({
+      score,
+      team1,
+      team2,
+      goals,
+    })
     return {
       score,
       team1,
