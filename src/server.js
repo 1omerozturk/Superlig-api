@@ -1,7 +1,7 @@
 const express = require('express')
 const { PORT } = require('./config/constant')
 const errorHandler = require('./middleware/errorHandler')
-
+const cors = require('cors')
 // Import routes
 const matchRoutes = require('./routes/matchRoutes')
 const standingRoutes = require('./routes/standingRoutes')
