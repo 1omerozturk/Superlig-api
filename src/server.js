@@ -7,12 +7,12 @@ const matchRoutes = require('./routes/matchRoutes')
 const standingRoutes = require('./routes/standingRoutes')
 const scorerRoutes = require('./routes/scorerRoutes')
 const teamsRoutes = require('./routes/teamsRoutes')
-const job = require('./services/cron')
 
 const app = express()
 
 // Cron function
-job.start()
+// const job = require('./services/cron')
+// job.start()
 
 // Middleware
 app.use(cors())
