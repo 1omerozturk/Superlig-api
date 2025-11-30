@@ -13,7 +13,7 @@ const teamLogos = {
     "KASIMPAŞA A.Ş.": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000038_120x120.png",
     "ZECORNER KAYSERİSPOR": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000071_120x120.png",
     "KOCAELİSPOR": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000134_120x120.png",
-    "KONYASPOR": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000158_120x120.png",
+     "TÜMOSAN KONYASPOR": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000158_120x120.png",
     "RAMS BAŞAKŞEHİR FUTBOL KULÜBÜ": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000240_120x120.png",
     "SAMSUNSPOR A.Ş.": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000155_120x120.png",
     "TRABZONSPOR A.Ş.": "https://fys.tff.org/TFFUploadFolder/KulupLogolari/000154_120x120.png"
